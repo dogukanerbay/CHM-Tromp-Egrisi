@@ -1,143 +1,269 @@
-Tromp Eğrisi
+Tromp Eğrisi Analizi
 
-Python ile geliştirilmiş hidrosiklon Tromp Eğrisi ve performans analiz programıdır.
+Python ile geliştirilmiş hidrosiklon sınıflandırma performansı ve Tromp Eğrisi analiz programıdır.
 
-Program, elek analizi sonucunda elde edilen tane boyutu dağılımı ile hidrosiklonun üst akım ve alt akım dağılımlarını kullanarak, farklı tane boyutlarının hangi oranda alt akıma geçtiğini analiz eder.
+Program, elek analizi sonucunda elde edilen tane boyutu dağılımını ve hidrosiklonun üst akım (overflow) ile alt akım (underflow) verilerini kullanarak farklı tane boyutlarının hangi oranda alt akıma geçtiğini analiz eder.
+
+Proje kapsamında Excel tabanlı veriler Python ile işlenerek tane boyutu–Partition ilişkisi oluşturulur. PCHIP interpolasyonu ile Tromp Eğrisi çizilir; D25, D50, D75 ve Imperfection gibi sınıflandırma performansı göstergeleri hesaplanır.
 
 Özellikler
-Excel dosyasından veri okuma
+
+Excel dosyasından deneysel veri okuma
+
 Tane boyutu dağılımlarının işlenmesi
-Üst akım ve alt akım dağılımlarının beslemeye göre hesaplanması
-Tane boyutları için geometrik ortalama hesaplanması
+
+Üst akım ve alt akım dağılımlarının besleme bazında hesaplanması
+
+Tane boyutu sınıfları için geometrik ortalama hesaplanması
+
 Partition (%) değerlerinin hesaplanması
-Tromp Eğrisi oluşturulması
-PCHIP interpolasyonu ile eğrinin oluşturulması
+
+PCHIP interpolasyonu ile Tromp Eğrisi oluşturulması
+
 D25, D50 ve D75 değerlerinin hesaplanması
+
 Imperfection değerinin hesaplanması
-Girilen herhangi bir D değeri için karşılık gelen tane boyutunun bulunması
-Sonuçların grafik ve Tkinter arayüzü üzerinden gösterilmesi
+
+Kullanıcının girdiği herhangi bir Partition (%) değeri için karşılık gelen tane boyutunun bulunması
+
+Deneysel verilerin ve hesaplanan sonuçların grafik üzerinde gösterilmesi
+
+Tkinter tabanlı kullanıcı arayüzü
+
 Kullanılan Teknolojiler
-Python
-Pandas
-NumPy
-Matplotlib
-SciPy
-Tkinter
-Excel
+
+Python – Hesaplamalar ve uygulama mantığı
+
+Pandas – Excel verilerinin okunması ve işlenmesi
+
+NumPy – Sayısal hesaplamalar
+
+Matplotlib – Tromp Eğrisi ve sonuç grafiklerinin oluşturulması
+
+SciPy – PCHIP interpolasyonu ve eğri hesaplamaları
+
+Tkinter – Grafiksel kullanıcı arayüzü
+
+Excel – Deneysel verilerin saklanması
+
 Excel Dosyasının Hazırlanması
 
-Program verileri Tromp Eğrisi.xlsx dosyasından okur.
+Program, verileri Tromp Eğrisi.xlsx dosyasından okur. Excel dosyası, Python dosyasıyla aynı klasörde bulunmalıdır.
 
-A sütunları
+1. Tane Boyutu ve Akım Dağılımı Verileri
 
-Bu bölümde elek analizi ve akım dağılımına ait veriler bulunur.
+Excel tablosunda aşağıdaki sütunlar bulunmalıdır:
 
-Sütun	Açıklama
-Boyut(-)	Tane boyutu sınırı
-Boyut(+)	Tane boyutu sınırı
-Beslenen Miktar (%)	Beslemedeki tane boyutu dağılımı
-Üst Akım Miktar (%)	Üst akımdaki tane boyutu dağılımı
-Alt Akım Miktar (%)	Alt akımdaki tane boyutu dağılımı
-H sütunları
+Sütun
 
-Akımların toplam miktarlarını içerir.
+Açıklama
 
-Sütun	Açıklama
-Üst Akım Toplam Miktar (%)	Üst akımın toplam beslemeye oranı
-Alt Akım Toplam Miktar (%)	Alt akımın toplam beslemeye oranı
+Boyut (-)
 
-Program bu verileri kullanarak tane boyutu sınıflarının toplam besleme içerisindeki karşılıklarını hesaplar.
+Tane boyutu sınıfının alt sınırı
 
-Program Nasıl Kullanılır?
-1. Excel dosyasını hazırla
+Boyut (+)
 
-Tromp Eğrisi.xlsx dosyasını programla aynı klasöre koy.
+Tane boyutu sınıfının üst sınırı
 
-Excel içerisindeki A ve H sütunlarına gerekli verileri gir.
+Beslenen Miktar (%)
 
-2. Programı çalıştır
+Beslemedeki tane boyutu sınıfının dağılımı
 
-Terminal veya Komut İstemi üzerinden:
+Üst Akım Miktar (%)
+
+Üst akımdaki tane boyutu sınıfının dağılımı
+
+Alt Akım Miktar (%)
+
+Alt akımdaki tane boyutu sınıfının dağılımı
+
+Tane boyutu dağılımlarının ve akım miktarlarının hangi temelde ifade edildiği tutarlı olmalıdır. Boyut değerleri için aynı ölçü birimi kullanılmalıdır.
+
+2. Akımların Toplam Miktarları
+
+Excel dosyasının H sütunundaki ilgili alanlarda akımların toplam beslemeye oranları bulunmalıdır.
+
+Alan
+
+Açıklama
+
+Üst Akım Toplam Miktar (%)
+
+Üst akımın toplam beslemeye oranı
+
+Alt Akım Toplam Miktar (%)
+
+Alt akımın toplam beslemeye oranı
+
+Program, tane boyutu dağılımlarıyla akımların toplam miktarlarını birlikte kullanarak ilgili boyut sınıflarının besleme içerisindeki karşılıklarını hesaplar.
+
+Programın Çalıştırılması
+
+1. Dosyaları Hazırlama
+
+Aşağıdaki dosyaların aynı klasörde bulunduğundan emin olun:
+
+Tromp Eğrisi/
+├── Tromp Eğrisi.py
+├── Tromp Eğrisi.xlsx
+└── README.md
+
+2. Gerekli Kütüphaneleri Kurma
+
+Terminal veya Komut İstemi üzerinden aşağıdaki komutu çalıştırın:
+
+pip install pandas numpy matplotlib scipy
+
+Tkinter, standart Python kurulumlarının çoğunda yerleşik olarak gelir.
+
+3. Programı Çalıştırma
+
+Terminal veya Komut İstemi üzerinden proje klasörüne gidin ve şu komutu çalıştırın:
 
 python "Tromp Eğrisi.py"
-3. Tromp Eğrisini incele
 
-Program Excel verilerini okuyarak:
+Hesaplama Süreci
 
-Geometrik ortalama tane boyutlarını oluşturur.
-Üst ve alt akım dağılımlarını beslemeye göre hesaplar.
-Partition (%) değerlerini oluşturur.
-Tane boyutu – Partition (%) ilişkisini kullanarak Tromp Eğrisini oluşturur.
+Program, Excel dosyasındaki verileri okuyarak aşağıdaki işlemleri gerçekleştirir:
 
-Program tarafından oluşturulan hesaplama sütunları:
+Tane boyutu ve akım dağılımı verilerini alır.
+
+Üst akım ve alt akımın tane boyutu dağılımlarını, toplam akım miktarlarını dikkate alarak besleme bazında değerlendirir.
+
+Her tane boyutu sınıfı için geometrik ortalama boyutu hesaplar.
+
+Her boyut sınıfının alt akıma geçiş oranını ifade eden Partition (%) değerlerini hesaplar.
+
+Tane boyutu ile Partition (%) arasındaki ilişkiyi oluşturur.
+
+PCHIP interpolasyonu kullanarak deneysel noktalar arasında bir Tromp Eğrisi oluşturur.
+
+D25, D50 ve D75 değerlerini hesaplar.
+
+D25, D50 ve D75 değerlerini kullanarak Imperfection değerini hesaplar.
+
+Program Tarafından Oluşturulan Hesaplama Sütunları
+
+Bu sütunların Excel dosyasında önceden bulunması gerekmez. İlgili hesaplamalar Python kodu tarafından yapılır.
+
+Hesaplama Sütunu
+
+Açıklama
 
 Üst Akımın Beslemeye Oranı
+
+İlgili tane boyutu sınıfındaki üst akım miktarının besleme ile karşılaştırılması
+
 Alt Akımın Beslemeye Oranı
+
+İlgili tane boyutu sınıfındaki alt akım miktarının besleme ile karşılaştırılması
+
 Geometrik Ortalama Boyut
+
+Tane boyutu sınıfının alt ve üst sınırlarından hesaplanan temsilî boyut
+
 Partition (%)
 
-Bu sütunlar Excel'de önceden bulunmak zorunda değildir; Python kodu tarafından oluşturulur.
+İlgili tane boyutu sınıfının alt akıma geçiş oranı
+
+Geometrik ortalama tane boyutu aşağıdaki şekilde hesaplanır:
+
+[
+d_g=\sqrt{d_{-}\times d_{+}}
+]
+
+Burada (d_{-}) tane boyutu sınıfının alt sınırını, (d_{+}) ise üst sınırını ifade eder.
 
 Tromp Eğrisi
+
+Tromp Eğrisi, hidrosiklonun farklı tane boyutlarını alt ve üst akımlar arasında nasıl ayırdığını gösterir.
 
 Grafikte:
 
 X ekseni: Geometrik ortalama tane boyutu
+
 Y ekseni: Partition (%)
 
-Eğri, deneysel veriler arasındaki geçişi göstermek amacıyla PCHIP interpolasyonu kullanılarak oluşturulur.
+Deneysel noktalar: Hesaplanan Partition değerleri
 
-Programın oluşturduğu 1000 noktalı hesaplama aralığı, mevcut deneysel verilerin minimum ve maksimum tane boyutu arasında oluşturulur. Veri aralığının dışına ekstrapolasyon yapılmaz.
+Tromp Eğrisi: PCHIP interpolasyonu ile oluşturulan eğri
+
+PCHIP interpolasyonu, deneysel noktalar arasında yumuşak bir geçiş oluşturarak eğrinin incelenmesini sağlar.
+
+Grafik için 1000 noktalı bir hesaplama aralığı oluşturulur. Bu aralık, mevcut deneysel verilerin minimum ve maksimum tane boyutları arasında kalır. Veri aralığının dışına ekstrapolasyon yapılmaz.
 
 D25, D50 ve D75
 
-Program Tromp Eğrisi üzerinden:
+Tromp Eğrisi üzerinden belirli Partition değerlerine karşılık gelen tane boyutları hesaplanır.
 
-D25: Partition = %25
-D50: Partition = %50
-D75: Partition = %75
+Parametre
 
-noktalarına karşılık gelen tane boyutlarını hesaplar.
+Açıklama
 
-Ayrıca kullanıcı arayüzden farklı bir Partition (%) değeri girerek o değere karşılık gelen tane boyutunu sorgulayabilir.
+D25
 
-Örneğin:
+Partition değerinin %25 olduğu tane boyutu
 
-D50 = 0.85 mm
+D50
 
-sonucu, Tromp Eğrisi üzerinde Partition değerinin %50 olduğu noktadaki yaklaşık tane boyutunu ifade eder.
+Partition değerinin %50 olduğu tane boyutu
+
+D75
+
+Partition değerinin %75 olduğu tane boyutu
+
+D50, hidrosiklon performansını değerlendirirken kullanılan temel göstergelerden biridir. Eğri üzerindeki Partition değerinin %50 olduğu tane boyutunu ifade eder.
+
+Örneğin, programın D50 = 0.85 mm sonucu vermesi, hesaplanan Tromp Eğrisi üzerinde %50 Partition değerine karşılık gelen tane boyutunun yaklaşık 0,85 mm olduğu anlamına gelir.
+
+Kullanıcı arayüz üzerinden farklı bir Partition (%) değeri girerek ilgili tane boyutunu da sorgulayabilir.
 
 Imperfection
 
-Program, D25, D50 ve D75 değerlerini kullanarak Imperfection değerini hesaplar.
+Imperfection, hidrosiklonun tane boyutuna bağlı ayırma keskinliğini değerlendirmek için kullanılan bir göstergedir.
 
-Imperfection, hidrosiklonun tane boyutuna bağlı ayırma davranışını değerlendirmek için kullanılan bir performans göstergesidir.
+Program, D25, D50 ve D75 değerleri üzerinden aşağıdaki bağıntıyı kullanarak Imperfection değerini hesaplar:
 
-Program ayrıca hesaplanan değere göre proje içerisinde tanımlanan yorum aralığını gösterir.
+[
+I=\frac{D_{75}-D_{25}}{2D_{50}}
+]
 
-Grafik
+Genel olarak daha düşük Imperfection değeri, daha keskin bir boyut bazlı ayırmaya işaret eder.
 
-Program aşağıdaki bilgileri aynı grafik üzerinde gösterir:
+Program ayrıca hesaplanan Imperfection değerini proje içerisinde tanımlanan yorum aralıklarına göre değerlendirir. Bu yorum aralıkları, uygulamada kullanılan kriterlere göre ele alınmalıdır.
 
-Deneysel veri noktaları
-Tromp Eğrisi
-D25
-D50
-D75
+Grafik ve Kullanıcı Arayüzü
 
-Bu sayede hidrosiklonun tane boyutuna bağlı ayırma davranışı görsel olarak incelenebilir.
+Programın oluşturduğu grafik üzerinde aşağıdaki bilgiler birlikte gösterilir:
+
+Deneysel Partition noktaları
+
+PCHIP ile oluşturulan Tromp Eğrisi
+
+D25 noktası
+
+D50 noktası
+
+D75 noktası
+
+Tkinter arayüzü üzerinden hesaplama sonuçları görüntülenebilir ve kullanıcı tarafından girilen Partition değerine karşılık gelen tane boyutu sorgulanabilir.
 
 Projenin Kullanım Amacı
 
-Bu proje, cevher hazırlama mühendisliğinde hidrosiklon sınıflandırma performansının tane boyutuna bağlı olarak incelenmesini Python kullanılarak gerçekleştirmeyi amaçlamaktadır.
+Bu proje, cevher hazırlama mühendisliğinde hidrosiklon sınıflandırma performansının tane boyutuna bağlı olarak incelenmesini amaçlamaktadır.
 
-Proje kapsamında Excel tabanlı deneysel veriler Python ile işlenerek, mühendislik açısından anlamlı sınıflandırma göstergelerine dönüştürülmektedir.
+Excel tabanlı deneysel verilerin Python ile işlenmesi sayesinde, tane boyutu dağılımları ve akım miktarları mühendislik açısından anlamlı sınıflandırma performansı göstergelerine dönüştürülür.
+
+Proje; veri işleme, sayısal hesaplama, interpolasyon ve grafik oluşturma yöntemlerinin cevher hazırlama uygulamalarında kullanımını göstermektedir.
 
 Proje Yapısı
+
 Tromp Eğrisi/
-│
 ├── Tromp Eğrisi.py
-└── Tromp Eğrisi.xlsx
+├── Tromp Eğrisi.xlsx
+└── README.md
+
 Geliştirici
 
 Doğukan Erbay
